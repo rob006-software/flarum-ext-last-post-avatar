@@ -4,6 +4,15 @@
 
 A [Flarum](http://flarum.org) extension. Displays avatar of last post author on discussions list.
 
+**Before**:
+
+![0e339bee](https://user-images.githubusercontent.com/5972388/217107021-a3e66caf-113a-4159-8e0f-11eeb162bf23.png)
+
+**After**:
+
+![93f4a040](https://user-images.githubusercontent.com/5972388/217107051-fa5dc9cb-8c64-4729-b353-0a959924cc96.png)
+
+
 ## Installation
 
 Install with composer:
