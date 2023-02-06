@@ -1,0 +1,77 @@
+{
+	"name": "rob006/flarum-ext-last-post-avatar",
+	"description": "Displays avatar of last post author on discussions list",
+	"keywords": [
+		"flarum"
+	],
+	"type": "flarum-extension",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Robert Korulczyk",
+			"email": "robert@korulczyk.pl",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"flarum/core": "^1.6.0"
+	},
+	"require-dev": {
+		"flarum/testing": "^1.6.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"rob006\\flarum\\lastPostAvatar\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"rob006\\flarum\\lastPostAvatar\\Tests\\": "tests/"
+		}
+	},
+	"extra": {
+		"flarum-extension": {
+			"title": "Last Post Avatar",
+			"category": "feature",
+			"icon": {
+				"name": "far fa-user-circle",
+				"color": "#fff",
+				"backgroundColor": "#552A17"
+			}
+		},
+		"flarum-cli": {
+			"modules": {
+				"admin": true,
+				"forum": true,
+				"js": true,
+				"jsCommon": true,
+				"css": true,
+				"locale": true,
+				"gitConf": true,
+				"githubActions": true,
+				"prettier": true,
+				"typescript": false,
+				"bundlewatch": false,
+				"backendTesting": true,
+				"editorConfig": false
+			}
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"scripts": {
+		"test": [
+			"@test:unit",
+			"@test:integration"
+		],
+		"test:unit": "phpunit -c tests/phpunit.unit.xml",
+		"test:integration": "phpunit -c tests/phpunit.integration.xml",
+		"test:setup": "@php tests/integration/setup.php"
+	},
+	"scripts-descriptions": {
+		"test": "Runs all tests.",
+		"test:unit": "Runs all unit tests.",
+		"test:integration": "Runs all integration tests.",
+		"test:setup": "Sets up a database for use with integration tests. Execute this only once."
+	}
+}
