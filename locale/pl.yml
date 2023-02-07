@@ -1,0 +1,12 @@
+rob006-last-post-avatar:
+  admin:
+    settings:
+      mode:
+        label: 'Sposób wyświetlania awatara autora ostatniego posta'
+        help: 'Wybierz kiedy i gdzie wyświetlać awatar autora ostatniego posta na liście dyskusji. Sprawdź README, aby zobaczyć wizualizacje poszczególnych opcji.'
+        options:
+          all-replies: 'Tylko odpowiedzi'
+          non-op-replies: 'Tylko odpowiedzi, z wyjątkiem postów autora dyskusji'
+          always: 'Zawsze'
+          replace-main: 'Podmień główny awatar dyskusji'
+  forum:

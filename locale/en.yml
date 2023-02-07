@@ -1,7 +1,12 @@
 rob006-last-post-avatar:
-  # For more details on the format
-  # Checkout https://docs.flarum.org/extend/i18n/#appendix-a-standard-key-format
   admin:
-    my_cool_key: My Cool Key
-
+    settings:
+      mode:
+        label: 'Last post avatar display mode'
+        help: 'Select when and where avatar of last post author should be shown on discussions list. Check README to see visualisation of each option.'
+        options:
+          all-replies: 'Only replies'
+          non-op-replies: 'Only replies except posts of discussion author'
+          always: 'Always'
+          replace-main: 'Replace main discussion avatar'
   forum:
