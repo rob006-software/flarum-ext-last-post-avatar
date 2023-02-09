@@ -17,20 +17,17 @@ import DiscussionListItem from 'flarum/forum/components/DiscussionListItem';
 import Link from 'flarum/common/components/Link';
 import Tooltip from 'flarum/common/components/Tooltip';
 
+const isByobuIgnored = (discussion) => {
+	return 'isPrivateDiscussion' in discussion
+		&& discussion.isPrivateDiscussion()
+		&& app.forum.attribute('lastPostAvatarByobu')
+}
+
 class MyTerminalPost extends TerminalPost {
 
     view(vnode) {
         const mode = app.forum.attribute('lastPostAvatarMode');
         const discussion = this.attrs.discussion;
-
-		const isPrivateDiscussion = 'isPrivateDiscussion' in discussion
-			&& discussion.isPrivateDiscussion()
-			&& app.forum.attribute('lastPostAvatarByobu')
-
-		if (isPrivateDiscussion) {
-			super.view(vnode)
-			return
-		}
 
         const lastPost = this.attrs.lastPost && discussion.replyCount();
 
@@ -43,7 +40,7 @@ class MyTerminalPost extends TerminalPost {
         return (
             <span>
                 {lastPost ? icon('fas fa-reply') : ''}{' '}
-                {showAvatar ? avatar(user, {className: 'ComposerBody-lastPostAvatar'}) : ''}
+                {!isByobuIgnored(discussion) && showAvatar ? avatar(user, {className: 'ComposerBody-lastPostAvatar'}) : ''}
                 {app.translator.trans('core.forum.discussion_list.' + (lastPost ? 'replied' : 'started') + '_text', {
                     user,
                     ago: humanTime(time),
@@ -71,6 +68,10 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
     override(DiscussionListItem.prototype, 'view', function (vnode) {
         var content = vnode();
         const discussion = this.attrs.discussion;
+
+		if (isByobuIgnored(discussion)) {
+			return content;
+		}
 
         if (
             app.forum.attribute('lastPostAvatarMode') !== 'replace-main'
