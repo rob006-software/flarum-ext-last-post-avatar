@@ -10,5 +10,5 @@
 import app from 'flarum/common/app';
 
 app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
-	// console.log('[rob006/flarum-ext-last-post-avatar] Hello, forum and admin!');
+    // console.log('[rob006/flarum-ext-last-post-avatar] Hello, forum and admin!');
 });
