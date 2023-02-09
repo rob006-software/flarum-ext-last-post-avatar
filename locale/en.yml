@@ -9,4 +9,6 @@ rob006-last-post-avatar:
           non-op-replies: 'Only replies except posts of discussion author'
           always: 'Always'
           replace-main: 'Replace main discussion avatar'
+      byobu:
+        label: (FoF Byōbu) Ignore private discussions
   forum:

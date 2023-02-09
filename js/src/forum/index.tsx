@@ -23,7 +23,11 @@ class MyTerminalPost extends TerminalPost {
         const mode = app.forum.attribute('lastPostAvatarMode');
         const discussion = this.attrs.discussion;
 
-		if ('isPrivateDiscussion' in discussion && discussion.isPrivateDiscussion()) {
+		const isPrivateDiscussion = 'isPrivateDiscussion' in discussion
+			&& discussion.isPrivateDiscussion()
+			&& app.forum.attribute('lastPostAvatarByobu')
+
+		if (isPrivateDiscussion) {
 			super.view(vnode)
 			return
 		}
