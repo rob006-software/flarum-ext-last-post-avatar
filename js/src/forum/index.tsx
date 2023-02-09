@@ -19,9 +19,15 @@ import Tooltip from 'flarum/common/components/Tooltip';
 
 class MyTerminalPost extends TerminalPost {
 
-    view() {
+    view(vnode) {
         const mode = app.forum.attribute('lastPostAvatarMode');
         const discussion = this.attrs.discussion;
+
+		if ('isPrivateDiscussion' in discussion && discussion.isPrivateDiscussion()) {
+			super.view(vnode)
+			return
+		}
+
         const lastPost = this.attrs.lastPost && discussion.replyCount();
 
         const user = discussion[lastPost ? 'lastPostedUser' : 'user']();
