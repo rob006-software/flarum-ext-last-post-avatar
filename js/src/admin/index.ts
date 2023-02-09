@@ -10,19 +10,17 @@
 import app from 'flarum/admin/app';
 
 app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
-    app.extensionData
-        .for('rob006-last-post-avatar')
-        .registerSetting({
-            setting: 'rob006-last-post-avatar.mode',
-            type: 'select',
-            options: {
-                'all-replies': app.translator.trans('rob006-last-post-avatar.admin.settings.mode.options.all-replies'),
-                'non-op-replies': app.translator.trans('rob006-last-post-avatar.admin.settings.mode.options.non-op-replies'),
-                'always': app.translator.trans('rob006-last-post-avatar.admin.settings.mode.options.always'),
-                'replace-main': app.translator.trans('rob006-last-post-avatar.admin.settings.mode.options.replace-main'),
-            },
-            label: app.translator.trans('rob006-last-post-avatar.admin.settings.mode.label'),
-            help: app.translator.trans('rob006-last-post-avatar.admin.settings.mode.help'),
-            default: 'all-replies',
-        });
+	app.extensionData.for('rob006-last-post-avatar').registerSetting({
+		setting: 'rob006-last-post-avatar.mode',
+		type: 'select',
+		options: {
+			'all-replies': app.translator.trans('rob006-last-post-avatar.admin.settings.mode.options.all-replies'),
+			'non-op-replies': app.translator.trans('rob006-last-post-avatar.admin.settings.mode.options.non-op-replies'),
+			always: app.translator.trans('rob006-last-post-avatar.admin.settings.mode.options.always'),
+			'replace-main': app.translator.trans('rob006-last-post-avatar.admin.settings.mode.options.replace-main'),
+		},
+		label: app.translator.trans('rob006-last-post-avatar.admin.settings.mode.label'),
+		help: app.translator.trans('rob006-last-post-avatar.admin.settings.mode.help'),
+		default: 'all-replies',
+	});
 });
