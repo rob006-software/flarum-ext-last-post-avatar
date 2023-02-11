@@ -85,11 +85,11 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 						<Tooltip
 							text={app.translator.trans('core.forum.discussion_list.replied_text', {
 								user,
-								ago: humanTime(discussion.createdAt()),
+								ago: humanTime(discussion.lastPostedAt()),
 							})}
 							position="right"
 						>
-							<Link className={'DiscussionListItem-author' + (lastPost ? ' reply-avatar' : '')} href={user ? app.route.user(user) : '#'}>
+							<Link className="DiscussionListItem-author reply-avatar" href={user ? app.route.user(user) : '#'}>
 								{avatar(user || null, {title: ''})}
 							</Link>
 						</Tooltip>
