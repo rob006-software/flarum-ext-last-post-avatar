@@ -34,7 +34,7 @@ class MyTerminalPost extends TerminalPost {
 		return (
 			<span>
 				{lastPost ? icon('fas fa-reply') : ''}{' '}
-				{showAvatar ? avatar(user, {className: 'ComposerBody-lastPostAvatar'}) : ''}
+				{showAvatar ? avatar(user, {className: 'ComposerBody-lastPostAvatar' + (lastPost ? ' reply-avatar' : '')}) : ''}
 				{app.translator.trans('core.forum.discussion_list.' + (lastPost ? 'replied' : 'started') + '_text', {
 					user,
 					ago: humanTime(time),
@@ -62,11 +62,12 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 	override(DiscussionListItem.prototype, 'view', function (vnode) {
 		var content = vnode();
 		const discussion = this.attrs.discussion;
+		const lastPost = !this.showFirstPost() && discussion.replyCount();
 
 		if (
 			app.forum.attribute('lastPostAvatarMode') !== 'replace-main'
 			|| (app.forum.attribute('lastPostAvatarIgnorePrivateDiscussions') && discussion.isPrivateDiscussion?.())
-			|| this.showFirstPost() || !discussion.replyCount()
+			|| !lastPost
 		) {
 			return content;
 		}
@@ -88,7 +89,7 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 							})}
 							position="right"
 						>
-							<Link className="DiscussionListItem-author" href={user ? app.route.user(user) : '#'}>
+							<Link className={'DiscussionListItem-author' + (lastPost ? ' reply-avatar' : '')} href={user ? app.route.user(user) : '#'}>
 								{avatar(user || null, {title: ''})}
 							</Link>
 						</Tooltip>
