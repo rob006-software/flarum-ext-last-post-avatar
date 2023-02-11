@@ -74,14 +74,21 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 
 		const user = discussion.lastPostedUser();
 
-		const replaceAvatar = function (node) {
+		function findByClassName(className) {
+			return function (node) {
+				return node && node.attrs && node.attrs.className && String(node.attrs.className).split(' ').includes(className);
+			};
+		}
+
+		function replaceAvatar(node) {
 			if (node && node.children && Array.isArray(node.children)) {
-				const container = node.children.find(function (node) {
-					return node && node.attrs && node.attrs.className && String(node.attrs.className).split(' ').includes('DiscussionListItem-content');
-				});
+				const container = node.children.find(findByClassName('DiscussionListItem-content'));
 
 				if (container) {
-					container.children.splice(0, 1,
+					const avatarPosition = container.children.findIndex(function (node) {
+						return node && node.children && Array.isArray(node.children) && node.children.find(findByClassName('DiscussionListItem-author'))
+					});
+					container.children.splice(avatarPosition, 1,
 						<Tooltip
 							text={app.translator.trans('core.forum.discussion_list.replied_text', {
 								user,
@@ -101,7 +108,7 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 					replaceAvatar(child);
 				});
 			}
-		};
+		}
 
 		replaceAvatar(content);
 
