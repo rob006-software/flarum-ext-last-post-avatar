@@ -9,4 +9,7 @@ rob006-last-post-avatar:
           non-op-replies: 'Tylko odpowiedzi, z wyjątkiem postów autora dyskusji'
           always: 'Zawsze'
           replace-main: 'Podmień główny awatar dyskusji'
+      ignorePrivateDiscussions:
+        label: 'Ignoruj prywatne dyskusje (FoF Byōbu)'
+        help: 'Zaznacz tę opcję, jeśli nie chcesz zmieniać sposobu wyświetlania awatarów dla prywatnych dyskusji.'
   forum:

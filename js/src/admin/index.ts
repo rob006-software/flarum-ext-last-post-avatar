@@ -26,8 +26,9 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 			default: 'all-replies',
 		})
 		.registerSetting({
-			setting: 'rob006-last-post-avatar.byobu',
+			setting: 'rob006-last-post-avatar.ignorePrivateDiscussions',
 			type: 'checkbox',
-			label: app.translator.trans('rob006-last-post-avatar.admin.settings.byobu.label'),
+			label: app.translator.trans('rob006-last-post-avatar.admin.settings.ignorePrivateDiscussions.label'),
+			help: app.translator.trans('rob006-last-post-avatar.admin.settings.ignorePrivateDiscussions.help'),
 		});
 });

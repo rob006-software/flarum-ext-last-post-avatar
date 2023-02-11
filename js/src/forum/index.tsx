@@ -17,10 +17,6 @@ import DiscussionListItem from 'flarum/forum/components/DiscussionListItem';
 import Link from 'flarum/common/components/Link';
 import Tooltip from 'flarum/common/components/Tooltip';
 
-const isByobuIgnored = (discussion) => {
-	return app.forum.attribute('lastPostAvatarByobu') && discussion.isPrivateDiscussion?.();
-};
-
 class MyTerminalPost extends TerminalPost {
 
 	view() {
@@ -33,11 +29,12 @@ class MyTerminalPost extends TerminalPost {
 		var showAvatar = (mode === 'all-replies' && lastPost)
 			|| (mode === 'always')
 			|| (mode === 'non-op-replies' && discussion.lastPostedUser() != discussion.user())
+		showAvatar &&= !app.forum.attribute('lastPostAvatarIgnorePrivateDiscussions') || !discussion.isPrivateDiscussion?.();
 
 		return (
 			<span>
 				{lastPost ? icon('fas fa-reply') : ''}{' '}
-				{!isByobuIgnored(discussion) && showAvatar ? avatar(user, {className: 'ComposerBody-lastPostAvatar'}) : ''}
+				{showAvatar ? avatar(user, {className: 'ComposerBody-lastPostAvatar'}) : ''}
 				{app.translator.trans('core.forum.discussion_list.' + (lastPost ? 'replied' : 'started') + '_text', {
 					user,
 					ago: humanTime(time),
@@ -68,7 +65,7 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 
 		if (
 			app.forum.attribute('lastPostAvatarMode') !== 'replace-main'
-			|| isByobuIgnored(discussion)
+			|| (app.forum.attribute('lastPostAvatarIgnorePrivateDiscussions') && discussion.isPrivateDiscussion?.())
 			|| this.showFirstPost() || !discussion.replyCount()
 		) {
 			return content;
