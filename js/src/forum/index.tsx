@@ -18,95 +18,95 @@ import Link from 'flarum/common/components/Link';
 import Tooltip from 'flarum/common/components/Tooltip';
 
 const isByobuIgnored = (discussion) => {
-    return app.forum.attribute('lastPostAvatarByobu') && discussion.isPrivateDiscussion?.();
-}
+	return app.forum.attribute('lastPostAvatarByobu') && discussion.isPrivateDiscussion?.();
+};
 
 class MyTerminalPost extends TerminalPost {
 
-    view() {
-        const mode = app.forum.attribute('lastPostAvatarMode');
-        const discussion = this.attrs.discussion;
-        const lastPost = this.attrs.lastPost && discussion.replyCount();
+	view() {
+		const mode = app.forum.attribute('lastPostAvatarMode');
+		const discussion = this.attrs.discussion;
+		const lastPost = this.attrs.lastPost && discussion.replyCount();
 
-        const user = discussion[lastPost ? 'lastPostedUser' : 'user']();
-        const time = discussion[lastPost ? 'lastPostedAt' : 'createdAt']();
-        var showAvatar = (mode === 'all-replies' && lastPost)
-            || (mode === 'always')
-            || (mode === 'non-op-replies' && discussion.lastPostedUser() != discussion.user())
+		const user = discussion[lastPost ? 'lastPostedUser' : 'user']();
+		const time = discussion[lastPost ? 'lastPostedAt' : 'createdAt']();
+		var showAvatar = (mode === 'all-replies' && lastPost)
+			|| (mode === 'always')
+			|| (mode === 'non-op-replies' && discussion.lastPostedUser() != discussion.user())
 
-        return (
-            <span>
-                {lastPost ? icon('fas fa-reply') : ''}{' '}
-                {!isByobuIgnored(discussion) && showAvatar ? avatar(user, {className: 'ComposerBody-lastPostAvatar'}) : ''}
-                {app.translator.trans('core.forum.discussion_list.' + (lastPost ? 'replied' : 'started') + '_text', {
-                    user,
-                    ago: humanTime(time),
-                })}
-            </span>
-        );
-    }
+		return (
+			<span>
+				{lastPost ? icon('fas fa-reply') : ''}{' '}
+				{!isByobuIgnored(discussion) && showAvatar ? avatar(user, {className: 'ComposerBody-lastPostAvatar'}) : ''}
+				{app.translator.trans('core.forum.discussion_list.' + (lastPost ? 'replied' : 'started') + '_text', {
+					user,
+					ago: humanTime(time),
+				})}
+			</span>
+		);
+	}
 }
 
 app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 
-    extend(DiscussionListItem.prototype, 'infoItems', function (items) {
-        if (app.forum.attribute('lastPostAvatarMode') === 'replace-main') {
-            return;
-        }
-        items.replace(
-            'terminalPost',
-            MyTerminalPost.component({
-                discussion: this.attrs.discussion,
-                lastPost: !this.showFirstPost(),
-            })
-        );
-    });
+	extend(DiscussionListItem.prototype, 'infoItems', function (items) {
+		if (app.forum.attribute('lastPostAvatarMode') === 'replace-main') {
+			return;
+		}
+		items.replace(
+			'terminalPost',
+			MyTerminalPost.component({
+				discussion: this.attrs.discussion,
+				lastPost: !this.showFirstPost(),
+			})
+		);
+	});
 
-    override(DiscussionListItem.prototype, 'view', function (vnode) {
-        var content = vnode();
-        const discussion = this.attrs.discussion;
+	override(DiscussionListItem.prototype, 'view', function (vnode) {
+		var content = vnode();
+		const discussion = this.attrs.discussion;
 
-        if (
-            app.forum.attribute('lastPostAvatarMode') !== 'replace-main'
-            || isByobuIgnored(discussion)
-            || this.showFirstPost() || !discussion.replyCount()
-        ) {
-            return content;
-        }
+		if (
+			app.forum.attribute('lastPostAvatarMode') !== 'replace-main'
+			|| isByobuIgnored(discussion)
+			|| this.showFirstPost() || !discussion.replyCount()
+		) {
+			return content;
+		}
 
-        const user = discussion.lastPostedUser();
+		const user = discussion.lastPostedUser();
 
-        const replaceAvatar = function (node) {
-            if (node && node.children && Array.isArray(node.children)) {
-                const container = node.children.find(function (node) {
-                    return node && node.attrs && node.attrs.className && String(node.attrs.className).split(' ').includes('DiscussionListItem-content');
-                });
+		const replaceAvatar = function (node) {
+			if (node && node.children && Array.isArray(node.children)) {
+				const container = node.children.find(function (node) {
+					return node && node.attrs && node.attrs.className && String(node.attrs.className).split(' ').includes('DiscussionListItem-content');
+				});
 
-                if (container) {
-                    container.children.splice(0, 1,
-                        <Tooltip
-                            text={app.translator.trans('core.forum.discussion_list.replied_text', {
-                                user,
-                                ago: humanTime(discussion.createdAt())
-                            })}
-                            position="right"
-                        >
-                            <Link className="DiscussionListItem-author" href={user ? app.route.user(user) : '#'}>
-                                {avatar(user || null, {title: ''})}
-                            </Link>
-                        </Tooltip>
-                    );
-                    return;
-                }
+				if (container) {
+					container.children.splice(0, 1,
+						<Tooltip
+							text={app.translator.trans('core.forum.discussion_list.replied_text', {
+								user,
+								ago: humanTime(discussion.createdAt()),
+							})}
+							position="right"
+						>
+							<Link className="DiscussionListItem-author" href={user ? app.route.user(user) : '#'}>
+								{avatar(user || null, {title: ''})}
+							</Link>
+						</Tooltip>
+					);
+					return;
+				}
 
-                node.children.forEach(function (child) {
-                    replaceAvatar(child);
-                });
-            }
-        };
+				node.children.forEach(function (child) {
+					replaceAvatar(child);
+				});
+			}
+		};
 
-        replaceAvatar(content);
+		replaceAvatar(content);
 
-        return content;
-    });
+		return content;
+	});
 });

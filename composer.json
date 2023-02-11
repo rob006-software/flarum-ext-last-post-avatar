@@ -50,7 +50,7 @@
 				"locale": true,
 				"gitConf": true,
 				"githubActions": true,
-				"prettier": true,
+				"prettier": false,
 				"typescript": false,
 				"bundlewatch": false,
 				"backendTesting": true,
