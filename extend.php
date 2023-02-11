@@ -24,6 +24,8 @@ return [
 		->css(__DIR__ . '/less/admin.less'),
 
 	(new Extend\Settings())
+		->default('rob006-last-post-avatar.byobu', false)
+		->serializeToForum('lastPostAvatarByobu', 'rob006-last-post-avatar.byobu', 'boolval')
 		->serializeToForum('lastPostAvatarMode', 'rob006-last-post-avatar.mode', static function ($value) {
 			if (!is_string($value) || !in_array($value, Mode::getModes(), true)) {
 				$value = Mode::DEFAULT;

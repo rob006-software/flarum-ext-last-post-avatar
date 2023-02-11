@@ -24,5 +24,10 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
             label: app.translator.trans('rob006-last-post-avatar.admin.settings.mode.label'),
             help: app.translator.trans('rob006-last-post-avatar.admin.settings.mode.help'),
             default: 'all-replies',
-        });
+        })
+		.registerSetting({
+			setting: 'rob006-last-post-avatar.byobu',
+			type: 'checkbox',
+			label: app.translator.trans('rob006-last-post-avatar.admin.settings.byobu.label')
+		});
 });
