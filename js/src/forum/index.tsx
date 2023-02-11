@@ -18,17 +18,14 @@ import Link from 'flarum/common/components/Link';
 import Tooltip from 'flarum/common/components/Tooltip';
 
 const isByobuIgnored = (discussion) => {
-	return 'isPrivateDiscussion' in discussion
-		&& discussion.isPrivateDiscussion()
-		&& app.forum.attribute('lastPostAvatarByobu')
+    return app.forum.attribute('lastPostAvatarByobu') && discussion.isPrivateDiscussion?.();
 }
 
 class MyTerminalPost extends TerminalPost {
 
-    view(vnode) {
+    view() {
         const mode = app.forum.attribute('lastPostAvatarMode');
         const discussion = this.attrs.discussion;
-
         const lastPost = this.attrs.lastPost && discussion.replyCount();
 
         const user = discussion[lastPost ? 'lastPostedUser' : 'user']();
@@ -69,12 +66,9 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
         var content = vnode();
         const discussion = this.attrs.discussion;
 
-		if (isByobuIgnored(discussion)) {
-			return content;
-		}
-
         if (
             app.forum.attribute('lastPostAvatarMode') !== 'replace-main'
+            || isByobuIgnored(discussion)
             || this.showFirstPost() || !discussion.replyCount()
         ) {
             return content;
