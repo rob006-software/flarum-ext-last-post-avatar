@@ -2,6 +2,15 @@ CHANGELOG
 =========
 
 
+1.2.3 (2023-03-14)
+------------------
+
+* Fix occasional duplicated avatars when "Only replies except posts of discussion author" mode is enabled. (@rob006)
+
+
+All changes: [1.2.2...1.2.3](https://github.com/rob006-software/flarum-ext-last-post-avatar/compare/1.2.2...1.2.3).
+
+
 1.2.2 (2023-02-12)
 ------------------
 
