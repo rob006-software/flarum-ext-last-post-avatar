@@ -28,7 +28,7 @@ class MyTerminalPost extends TerminalPost {
 		const time = discussion[lastPost ? 'lastPostedAt' : 'createdAt']();
 		var showAvatar = (mode === 'all-replies' && lastPost)
 			|| (mode === 'always')
-			|| (mode === 'non-op-replies' && discussion.lastPostedUser() != discussion.user())
+			|| (mode === 'non-op-replies' && lastPost && discussion.lastPostedUser() != discussion.user())
 		showAvatar &&= !app.forum.attribute('lastPostAvatarIgnorePrivateDiscussions') || !discussion.isPrivateDiscussion?.();
 
 		return (
