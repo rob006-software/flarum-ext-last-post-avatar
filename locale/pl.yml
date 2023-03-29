@@ -12,4 +12,3 @@ rob006-last-post-avatar:
       ignorePrivateDiscussions:
         label: 'Ignoruj prywatne dyskusje (FoF Byōbu)'
         help: 'Zaznacz tę opcję, jeśli nie chcesz zmieniać sposobu wyświetlania awatarów dla prywatnych dyskusji.'
-  forum:
