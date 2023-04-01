@@ -5,7 +5,7 @@ CHANGELOG
 1.2.4 (2023-04-01)
 ------------------
 
-* Remove empty translations as they emmit deprecation notices on PHP 8.2. (@garygreen)
+* Remove empty translations as they emit deprecation warnings on PHP 8.2. (@garygreen)
 
 
 All changes: [1.2.3...1.2.4](https://github.com/rob006-software/flarum-ext-last-post-avatar/compare/1.2.3...1.2.4).
