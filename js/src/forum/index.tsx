@@ -59,8 +59,7 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 		);
 	});
 
-	override(DiscussionListItem.prototype, 'view', function (vnode) {
-		var content = vnode();
+	override(DiscussionListItem.prototype, 'authorAvatarView', function (original) {
 		const discussion = this.attrs.discussion;
 		const lastPost = !this.showFirstPost() && discussion.replyCount();
 
@@ -69,49 +68,22 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 			|| (app.forum.attribute('lastPostAvatarIgnorePrivateDiscussions') && discussion.isPrivateDiscussion?.())
 			|| !lastPost
 		) {
-			return content;
+			return original();
 		}
 
 		const user = discussion.lastPostedUser();
-
-		function findByClassName(className) {
-			return function (node) {
-				return node && node.attrs && node.attrs.className && String(node.attrs.className).split(' ').includes(className);
-			};
-		}
-
-		function replaceAvatar(node) {
-			if (node && node.children && Array.isArray(node.children)) {
-				const container = node.children.find(findByClassName('DiscussionListItem-content'));
-
-				if (container) {
-					const avatarPosition = container.children.findIndex(function (node) {
-						return node && node.children && Array.isArray(node.children) && node.children.find(findByClassName('DiscussionListItem-author'))
-					});
-					container.children.splice(avatarPosition, 1,
-						<Tooltip
-							text={app.translator.trans('core.forum.discussion_list.replied_text', {
-								user,
-								ago: humanTime(discussion.lastPostedAt()),
-							})}
-							position="right"
-						>
-							<Link className="DiscussionListItem-author reply-avatar" href={user ? app.route.user(user) : '#'}>
-								{avatar(user || null, {title: ''})}
-							</Link>
-						</Tooltip>
-					);
-					return;
-				}
-
-				node.children.forEach(function (child) {
-					replaceAvatar(child);
-				});
-			}
-		}
-
-		replaceAvatar(content);
-
-		return content;
+		return (
+			<Tooltip
+				text={app.translator.trans('core.forum.discussion_list.replied_text', {
+					user,
+					ago: humanTime(discussion.lastPostedAt()),
+				})}
+				position="right"
+			>
+				<Link className="DiscussionListItem-author reply-avatar" href={user ? app.route.user(user) : '#'}>
+					{avatar(user || null, {title: ''})}
+				</Link>
+			</Tooltip>
+		);
 	});
 });
