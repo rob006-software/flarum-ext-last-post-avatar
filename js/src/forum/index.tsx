@@ -8,11 +8,11 @@
  */
 
 import app from 'flarum/forum/app';
-import {extend, override} from 'flarum/common/extend';
+import {extend} from 'flarum/common/extend';
 import TerminalPost from 'flarum/forum/components/TerminalPost';
-import avatar from 'flarum/common/helpers/avatar';
-import humanTime from 'flarum/common/helpers/humanTime';
-import icon from 'flarum/common/helpers/icon';
+import Avatar from 'flarum/common/components/Avatar';
+import humanTime from 'flarum/common/utils/humanTime';
+import Icon from 'flarum/common/components/Icon';
 import DiscussionListItem from 'flarum/forum/components/DiscussionListItem';
 import Link from 'flarum/common/components/Link';
 import Tooltip from 'flarum/common/components/Tooltip';
@@ -33,8 +33,9 @@ class MyTerminalPost extends TerminalPost {
 
 		return (
 			<span>
-				{lastPost ? icon('fas fa-reply') : ''}{' '}
-				{showAvatar ? avatar(user, {className: 'ComposerBody-lastPostAvatar' + (lastPost ? ' reply-avatar' : '')}) : ''}
+				{lastPost ? <Icon name="fas fa-reply"/> : ''}{' '}
+				{showAvatar ?
+					<Avatar user={user} className={'ComposerBody-lastPostAvatar' + (lastPost ? ' reply-avatar' : '')}/> : ''}
 				{app.translator.trans('core.forum.discussion_list.' + (lastPost ? 'replied' : 'started') + '_text', {
 					user,
 					ago: humanTime(time),
@@ -50,16 +51,22 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 		if (app.forum.attribute('lastPostAvatarMode') === 'replace-main') {
 			return;
 		}
-		items.replace(
-			'terminalPost',
-			MyTerminalPost.component({
-				discussion: this.attrs.discussion,
-				lastPost: !this.showFirstPost(),
-			})
+
+		const terminalPost = (
+			<MyTerminalPost
+				discussion={this.attrs.discussion}
+				lastPost={!this.showFirstPost()}
+			/>
 		);
+
+		if (items.has('terminalPost')) {
+			items.setContent('terminalPost', terminalPost);
+		} else {
+			items.add('terminalPost', terminalPost);
+		}
 	});
 
-	override(DiscussionListItem.prototype, 'authorAvatarView', function (original) {
+	extend(DiscussionListItem.prototype, 'authorItems', function (items) {
 		const discussion = this.attrs.discussion;
 		const lastPost = !this.showFirstPost() && discussion.replyCount();
 
@@ -68,11 +75,11 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 			|| (app.forum.attribute('lastPostAvatarIgnorePrivateDiscussions') && discussion.isPrivateDiscussion?.())
 			|| !lastPost
 		) {
-			return original();
+			return;
 		}
 
 		const user = discussion.lastPostedUser();
-		return (
+		const avatar = (
 			<Tooltip
 				text={app.translator.trans('core.forum.discussion_list.replied_text', {
 					user,
@@ -80,10 +87,16 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 				})}
 				position="right"
 			>
-				<Link className="DiscussionListItem-author reply-avatar" href={user ? app.route.user(user) : '#'}>
-					{avatar(user || null, {title: ''})}
+				<Link className="DiscussionListItem-author-avatar" href={user ? app.route.user(user) : '#'}>
+					<Avatar user={user}/>
 				</Link>
 			</Tooltip>
 		);
+
+		if (items.has('avatar')) {
+			items.setContent('avatar', avatar);
+		} else {
+			items.add('avatar', avatar);
+		}
 	});
 });

@@ -10,7 +10,7 @@
 import app from 'flarum/admin/app';
 
 app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
-	app.extensionData
+	app.registry
 		.for('rob006-last-post-avatar')
 		.registerSetting({
 			setting: 'rob006-last-post-avatar.mode',
