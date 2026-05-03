@@ -31,6 +31,9 @@
 		}
 	},
 	"extra": {
+		"branch-alias": {
+			"dev-master": "1.x-dev"
+		},
 		"flarum-extension": {
 			"title": "Last Post Avatar",
 			"category": "feature",
