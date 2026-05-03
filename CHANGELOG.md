@@ -5,7 +5,7 @@ CHANGELOG
 2.0.0 (2026-05-03)
 ------------------
 
-* Updated the extension for Flarum 2.0 compatibility. (@rob006)
+* Add Flarum 2.0 compatibility. (@rob006)
 
 
 All changes: [1.3.0...2.0.0](https://github.com/rob006-software/flarum-ext-last-post-avatar/compare/1.3.0...2.0.0).
