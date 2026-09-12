@@ -2,6 +2,15 @@ CHANGELOG
 =========
 
 
+2.0.1 (2026-09-12)
+------------------
+
+* Fix post time rendering. (@rob006)
+
+
+All changes: [2.0.0...2.0.1](https://github.com/rob006-software/flarum-ext-last-post-avatar/compare/2.0.0...2.0.1).
+
+
 2.0.0 (2026-05-03)
 ------------------
 

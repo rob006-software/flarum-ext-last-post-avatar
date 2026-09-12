@@ -11,7 +11,8 @@ import app from 'flarum/forum/app';
 import {extend} from 'flarum/common/extend';
 import TerminalPost from 'flarum/forum/components/TerminalPost';
 import Avatar from 'flarum/common/components/Avatar';
-import humanTime from 'flarum/common/utils/humanTime';
+import humanTime from 'flarum/common/helpers/humanTime';
+import humanTimeText from 'flarum/common/utils/humanTime';
 import Icon from 'flarum/common/components/Icon';
 import DiscussionListItem from 'flarum/forum/components/DiscussionListItem';
 import Link from 'flarum/common/components/Link';
@@ -83,7 +84,7 @@ app.initializers.add('rob006/flarum-ext-last-post-avatar', () => {
 			<Tooltip
 				text={app.translator.trans('core.forum.discussion_list.replied_text', {
 					user,
-					ago: humanTime(discussion.lastPostedAt()),
+					ago: humanTimeText(discussion.lastPostedAt()),
 				})}
 				position="right"
 			>
